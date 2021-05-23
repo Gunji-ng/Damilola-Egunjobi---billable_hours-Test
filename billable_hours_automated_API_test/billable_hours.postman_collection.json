@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "b8546223-405f-4307-ad75-f5f062b67bd0",
+		"name": "billable_hours",
+		"description": "Test collection for \"billable_hours\".",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Parse CSV file content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has an id property\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has a companies property\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.companies).to.be.a('object');\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"invoice_id\", jsonData.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"payload\": \"RW1wbG95ZWUgSUQsQmlsbGFibGUgUmF0ZSAocGVyIGhvdXIpLFByb2plY3QsRGF0ZSxTdGFydCBUaW1lLEVuZCBUaW1lDQoxLDMwMCxHb29nbGUsMDEtMDctMTksMDk6MDAsMTc6MDANCjIsMTAwLEZhY2Vib29rLDAxLTA3LTE5LDExOjAwLDE2OjAwDQozLDIwMCxGYWNlYm9vaywwMy0wNy0xOSwxMjowMCwxNTowMA0KNCwxMDAsR29vZ2xlLDAzLTA3LTE5LDEwOjAwLDEyOjAwDQo1LDIwMCxHb29nbGUsMDQtMDctMTksMTE6MDAsMTQ6MDANCjEyLDQwMCxBcHBsZSwwMS0wNy0xOSwxMDowMCwxNTowMA0KMTcsMTAwLEFtYXpvbiwwMi0wNy0xOSwwOTowMCwxMjowMA0KMjYsMjAwLEFwcGxlLDAyLTA3LTE5LDE0OjAwLDE2OjAwDQo3LDMwMCxBbWF6b24sMDMtMDctMTksMTE6MDAsMTI6MDANCg==\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/invoice/parse",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"invoice",
+						"parse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Invoice Parsing Result by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has an id property\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has a companies property\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.companies).to.be.a('object');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/invoice/{{invoice_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"invoice",
+						"{{invoice_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Company details from an Invoice",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has a name property\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has a lineItems property\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.lineItems).to.be.a('array');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has a totalAmount property\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.totalAmount).to.be.a('number');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if value of name is Google\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"Google\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if value of totalAmount is 3200.00\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.totalAmount).to.eql(3200.00);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/invoice/{{invoice_id}}/company?companyName=Google",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"invoice",
+						"{{invoice_id}}",
+						"company"
+					],
+					"query": [
+						{
+							"key": "companyName",
+							"value": "Google"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://csvdemomockappp.bundlewallet.com/"
+		}
+	]
+}
